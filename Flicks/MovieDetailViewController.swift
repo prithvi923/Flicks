@@ -16,8 +16,9 @@ class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let posterURL = "https://image.tmdb.org/t/p/w342\(movie.posterPath)"
+        let posterURL = "https://image.tmdb.org/t/p/w342\(self.movie.posterPath)"
         self.posterImageView.setImageWith(URL(string: posterURL)!)
+        self.navigationItem.title = self.movie.title
         // Do any additional setup after loading the view.
     }
 
