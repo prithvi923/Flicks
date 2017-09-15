@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AFNetworking
+
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -32,9 +34,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell")!
-        cell.textLabel?.text = self.movies[indexPath.row].title
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell") as! MovieTableViewCell
+        let movie = self.movies[indexPath.row]
+        let backdropURL = "https://image.tmdb.org/t/p/w342\(movie.backdropPath)"
+        cell.titleLabel?.text = movie.title
+        cell.movieBackdrop.setImageWith(URL(string: backdropURL)!)
+        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 210
     }
     
     func loadMovies() {
