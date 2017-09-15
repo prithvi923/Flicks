@@ -47,6 +47,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return 210
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destVC = segue.destination as! MovieDetailViewController
+        let cell = sender as! MovieTableViewCell
+        let path = tableView.indexPath(for: cell)
+        destVC.movie = self.movies[(path?.row)!]
+    }
+    
     func loadMovies() {
         let apiKey = "b138fd7bdb72c3c86f8ad32f0d1ce8e4"
         let nowPlaying = "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)"
