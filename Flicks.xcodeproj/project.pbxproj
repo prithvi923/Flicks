@@ -17,6 +17,7 @@
 		DCD7F4D21F67A9D8001A71CA /* FlicksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD7F4D11F67A9D8001A71CA /* FlicksUITests.swift */; };
 		DCD7F4E01F67BC88001A71CA /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD7F4DF1F67BC88001A71CA /* Movie.swift */; };
 		DCDAC6EC1F6B818000424DE9 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDAC6EB1F6B818000424DE9 /* MovieTableViewCell.swift */; };
+		DCDAC6EE1F6B8B8E00424DE9 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDAC6ED1F6B8B8E00424DE9 /* MovieDetailViewController.swift */; };
 		E95EB718B39F1FCB769277AD /* libPods-FlicksUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C1FEA9209AD3018A656A3F2 /* libPods-FlicksUITests.a */; };
 		EB5DACC061DB8CC49E240D0F /* Pods_Flicks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62CC3389A0332CDD6444644A /* Pods_Flicks.framework */; };
 /* End PBXBuildFile section */
@@ -62,6 +63,7 @@
 		DCD7F4D31F67A9D8001A71CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCD7F4DF1F67BC88001A71CA /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		DCDAC6EB1F6B818000424DE9 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
+		DCDAC6ED1F6B8B8E00424DE9 /* MovieDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 		E1C7CBE82CFC85D6494968CA /* Pods-FlicksUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlicksUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlicksUITests/Pods-FlicksUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,6 +147,7 @@
 				DCD7F4B31F67A9D8001A71CA /* ViewController.swift */,
 				DCD7F4DF1F67BC88001A71CA /* Movie.swift */,
 				DCD7F4B51F67A9D8001A71CA /* Main.storyboard */,
+				DCDAC6ED1F6B8B8E00424DE9 /* MovieDetailViewController.swift */,
 				DCDAC6EB1F6B818000424DE9 /* MovieTableViewCell.swift */,
 				DCD7F4B81F67A9D8001A71CA /* Assets.xcassets */,
 				DCD7F4BA1F67A9D8001A71CA /* LaunchScreen.storyboard */,
@@ -387,10 +390,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Flicks/Pods-Flicks-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/CircularSpinner/CircularSpinner.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CircularSpinner.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -468,6 +473,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCD7F4B41F67A9D8001A71CA /* ViewController.swift in Sources */,
+				DCDAC6EE1F6B8B8E00424DE9 /* MovieDetailViewController.swift in Sources */,
 				DCD7F4B21F67A9D8001A71CA /* AppDelegate.swift in Sources */,
 				DCDAC6EC1F6B818000424DE9 /* MovieTableViewCell.swift in Sources */,
 				DCD7F4E01F67BC88001A71CA /* Movie.swift in Sources */,

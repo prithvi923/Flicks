@@ -8,6 +8,7 @@
 
 import UIKit
 import AFNetworking
+import CircularSpinner
 
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -47,6 +48,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return 210
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destVC = segue.destination as! MovieDetailViewController
+        let cell = sender as! MovieTableViewCell
+        let path = tableView.indexPath(for: cell)
+        destVC.movie = self.movies[(path?.row)!]
+    }
+    
     func loadMovies() {
         let apiKey = "b138fd7bdb72c3c86f8ad32f0d1ce8e4"
         let nowPlaying = "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)"
@@ -54,6 +62,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let url = URL(string: nowPlaying)
         let urlRequest = URLRequest(url: url!)
         let session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
+        
+        CircularSpinner.show("Loading...", animated: true, type: .indeterminate)
         let task = session.dataTask(with: urlRequest) { maybeData, success, error in
             let data = try! JSONSerialization.jsonObject(with: maybeData!)
             if let responseData = data as? NSDictionary {
@@ -62,6 +72,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     return Movie(from: movie)
                 }
                 self.tableView.reloadData()
+                CircularSpinner.hide()
             }
         }
         
