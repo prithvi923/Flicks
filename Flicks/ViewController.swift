@@ -8,6 +8,7 @@
 
 import UIKit
 import AFNetworking
+import CircularSpinner
 
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -61,6 +62,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let url = URL(string: nowPlaying)
         let urlRequest = URLRequest(url: url!)
         let session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
+        
+        CircularSpinner.show("Loading...", animated: true, type: .indeterminate)
         let task = session.dataTask(with: urlRequest) { maybeData, success, error in
             let data = try! JSONSerialization.jsonObject(with: maybeData!)
             if let responseData = data as? NSDictionary {
@@ -69,6 +72,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     return Movie(from: movie)
                 }
                 self.tableView.reloadData()
+                CircularSpinner.hide()
             }
         }
         
