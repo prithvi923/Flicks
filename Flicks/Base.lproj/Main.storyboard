@@ -77,8 +77,17 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.75" contentMode="scaleToFill" misplaced="YES" id="tpW-qZ-Ze5">
-                                <rect key="frame" x="0.0" y="446" width="375" height="221"/>
+                                <rect key="frame" x="0.0" y="522" width="375" height="145"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gXv-Ct-alu">
+                                        <rect key="frame" x="37" y="29" width="301" height="112"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </scrollView>
                         </subviews>
@@ -86,6 +95,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Yye-cX-ueQ"/>
                     <connections>
+                        <outlet property="overviewLabel" destination="gXv-Ct-alu" id="8h4-uf-ZqS"/>
                         <outlet property="overviewView" destination="tpW-qZ-Ze5" id="l2T-tp-ip2"/>
                         <outlet property="posterImageView" destination="lxj-FU-Tet" id="rx6-Bj-48A"/>
                     </connections>

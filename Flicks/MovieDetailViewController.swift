@@ -13,6 +13,7 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var posterImageView: UIImageView!
     var movie: Movie!
     @IBOutlet weak var overviewView: UIScrollView!
+    @IBOutlet weak var overviewLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,20 +22,14 @@ class MovieDetailViewController: UIViewController {
         self.posterImageView.setImageWith(URL(string: posterURL)!)
         self.navigationItem.title = self.movie.title
         
-        let width = self.view.frame.width * 4/5
-        let offset = (self.view.frame.width - width)/2
-        let label = UILabel(frame: CGRect(x: offset, y: offset, width: width, height: CGFloat.greatestFiniteMagnitude))
-        label.numberOfLines = 0
-        label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.text = self.movie.overview
-        label.textColor = .white
-        label.sizeToFit()
+        overviewLabel.text = self.movie.overview
+        overviewLabel.sizeToFit()
+        
+        let realHeight = (overviewLabel.frame.origin.y * 2) + overviewLabel.frame.height
         
         let contentWidth = overviewView.bounds.width
-        let contentHeight = overviewView.bounds.height < label.frame.height ? label.frame.height : overviewView.bounds.height
+        let contentHeight = overviewView.bounds.height < realHeight ? realHeight : overviewView.bounds.height
         overviewView.contentSize = CGSize(width: contentWidth, height: contentHeight)
-        overviewView.addSubview(label)
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
