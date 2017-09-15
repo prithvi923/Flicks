@@ -12,6 +12,7 @@ class MovieDetailViewController: UIViewController {
 
     @IBOutlet weak var posterImageView: UIImageView!
     var movie: Movie!
+    @IBOutlet weak var overviewView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +20,20 @@ class MovieDetailViewController: UIViewController {
         let posterURL = "https://image.tmdb.org/t/p/w342\(self.movie.posterPath)"
         self.posterImageView.setImageWith(URL(string: posterURL)!)
         self.navigationItem.title = self.movie.title
+        
+        let width = self.view.frame.width * 4/5
+        let offset = (self.view.frame.width - width)/2
+        let label = UILabel(frame: CGRect(x: offset, y: offset, width: width, height: CGFloat.greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.text = self.movie.overview
+        label.textColor = .white
+        label.sizeToFit()
+        
+        let contentWidth = overviewView.bounds.width
+        let contentHeight = overviewView.bounds.height < label.frame.height ? label.frame.height : overviewView.bounds.height
+        overviewView.contentSize = CGSize(width: contentWidth, height: contentHeight)
+        overviewView.addSubview(label)
         // Do any additional setup after loading the view.
     }
 
