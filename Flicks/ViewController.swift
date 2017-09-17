@@ -11,10 +11,12 @@ import AFNetworking
 import CircularSpinner
 
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating {
 
     var movies: [Movie] = []
+    var filteredMovies: [Movie] = []
     var refreshControl: UIRefreshControl!
+    var searchController: UISearchController!
     let apiKey = "b138fd7bdb72c3c86f8ad32f0d1ce8e4"
     var path: String!
     @IBOutlet weak var tableView: UITableView!
@@ -31,8 +33,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
         
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        tableView.tableHeaderView = searchController.searchBar
+        searchController.searchBar.sizeToFit()
+        definesPresentationContext = true
+        
         CircularSpinner.show("Loading...", animated: true, type: .indeterminate)
         loadMovies(#selector(hideCircularSpinner))
+    }
+    
+    func filterContentForSearchText(searchText: String) {
+        filteredMovies = movies.filter { movie in
+            return movie.title.lowercased().contains(searchText.lowercased())
+        }
+        tableView.reloadData()
     }
     
     func refreshControlAction(_ refreshControl: UIRefreshControl) {
@@ -53,12 +69,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchController.isActive && searchController.searchBar.text! != "" {
+            return filteredMovies.count
+        }
         return movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell") as! MovieTableViewCell
-        let movie = self.movies[indexPath.row]
+        let movie: Movie
+        
+        if searchController.isActive && searchController.searchBar.text! != "" {
+            movie = self.filteredMovies[indexPath.row]
+        } else {
+            movie = self.movies[indexPath.row]
+        }
         let backdropURL = "https://image.tmdb.org/t/p/w342\(movie.backdropPath)"
         cell.titleLabel?.text = movie.title
         cell.movieBackdrop.setImageWith(URL(string: backdropURL)!)
@@ -74,7 +99,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let destVC = segue.destination as! MovieDetailViewController
         let cell = sender as! MovieTableViewCell
         let path = tableView.indexPath(for: cell)
-        destVC.movie = self.movies[(path?.row)!]
+        if searchController.isActive && searchController.searchBar.text! != "" {
+            destVC.movie = self.filteredMovies[(path?.row)!]
+        } else {
+            destVC.movie = self.movies[(path?.row)!]
+        }
     }
     
     func loadMovies(_ callback: Selector) {
@@ -101,5 +130,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         task.resume()
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
 }
