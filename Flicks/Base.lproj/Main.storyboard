@@ -12,7 +12,7 @@
         <!--Flicks-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Flicks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="movieListView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="Flicks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -116,7 +116,7 @@
         <!--Navigation Controller-->
         <scene sceneID="1r6-7e-ZoY">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Fh2-wf-fy0" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="nav" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Fh2-wf-fy0" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="v4G-nN-51V">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
