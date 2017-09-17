@@ -14,15 +14,35 @@ import CircularSpinner
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var movies: [Movie] = []
+    var refreshControl: UIRefreshControl!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var networkErrorLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         tableView.dataSource = self
         tableView.delegate = self
+        networkErrorLabel.text = "Unable to connect to network"
         
-        loadMovies()
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
+        
+        CircularSpinner.show("Loading...", animated: true, type: .indeterminate)
+        loadMovies(#selector(hideCircularSpinner))
+    }
+    
+    func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        loadMovies(#selector(hideRefreshControl))
+    }
+    
+    func hideCircularSpinner() {
+        CircularSpinner.hide()
+    }
+    
+    func hideRefreshControl() {
+        refreshControl.endRefreshing()
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,7 +75,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         destVC.movie = self.movies[(path?.row)!]
     }
     
-    func loadMovies() {
+    func loadMovies(_ callback: Selector) {
         let apiKey = "b138fd7bdb72c3c86f8ad32f0d1ce8e4"
         let nowPlaying = "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)"
         
@@ -63,22 +83,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let urlRequest = URLRequest(url: url!)
         let session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
         
-        CircularSpinner.show("Loading...", animated: true, type: .indeterminate)
         let task = session.dataTask(with: urlRequest) { maybeData, success, error in
-            let data = try! JSONSerialization.jsonObject(with: maybeData!)
-            if let responseData = data as? NSDictionary {
-                let resultsDict = responseData["results"] as! [NSDictionary]
-                self.movies = resultsDict.map { movie in
-                    return Movie(from: movie)
+            if (error != nil) {
+                self.networkErrorLabel.isHidden = false
+            } else {
+                self.networkErrorLabel.isHidden = true
+                let data = try! JSONSerialization.jsonObject(with: maybeData!)
+                if let responseData = data as? NSDictionary {
+                    let resultsDict = responseData["results"] as! [NSDictionary]
+                    self.movies = resultsDict.map { movie in
+                        return Movie(from: movie)
+                    }
+                    self.tableView.reloadData()
                 }
-                self.tableView.reloadData()
-                CircularSpinner.hide()
             }
+            self.perform(callback)
         }
         
         task.resume()
     }
-
-
 }
-
