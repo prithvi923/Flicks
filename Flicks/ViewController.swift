@@ -15,6 +15,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     var movies: [Movie] = []
     var refreshControl: UIRefreshControl!
+    let apiKey = "b138fd7bdb72c3c86f8ad32f0d1ce8e4"
+    var path: String!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var networkErrorLabel: UILabel!
     
@@ -76,10 +78,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func loadMovies(_ callback: Selector) {
-        let apiKey = "b138fd7bdb72c3c86f8ad32f0d1ce8e4"
-        let nowPlaying = "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)"
-        
-        let url = URL(string: nowPlaying)
+        let endpoint = "https://api.themoviedb.org/3/movie/\(path!)?api_key=\(apiKey)"
+        let url = URL(string: endpoint)
         let urlRequest = URLRequest(url: url!)
         let session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
         
