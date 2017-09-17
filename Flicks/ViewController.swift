@@ -86,7 +86,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         let backdropURL = "https://image.tmdb.org/t/p/w342\(movie.backdropPath)"
         cell.titleLabel?.text = movie.title
-        cell.movieBackdrop.setImageWith(URL(string: backdropURL)!)
+        let imageRequest = URLRequest(url: URL(string: backdropURL)!)
+        cell.movieBackdrop.setImageWith(
+            imageRequest,
+            placeholderImage: nil,
+            success: { (imageRequest, imageResponse, image) in
+                if imageResponse != nil {
+                    cell.movieBackdrop.alpha = 0.0
+                    cell.movieBackdrop.image = image
+                    UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                        cell.movieBackdrop.alpha = 1.0
+                    })
+                } else {
+                    cell.movieBackdrop.image = image
+                }
+        }, failure: { (imageRequest, imageResponse, error) in
+            
+        })
         
         return cell
     }

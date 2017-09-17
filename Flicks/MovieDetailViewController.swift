@@ -19,7 +19,26 @@ class MovieDetailViewController: UIViewController {
         super.viewDidLoad()
         
         let posterURL = "https://image.tmdb.org/t/p/w342\(self.movie.posterPath)"
-        self.posterImageView.setImageWith(URL(string: posterURL)!)
+        let imageRequest = URLRequest(url: URL(string: posterURL)!)
+        self.posterImageView.setImageWith(
+            imageRequest,
+            placeholderImage: nil,
+            success: { (imageRequest, imageResponse, image) in
+                if imageResponse != nil {
+                    self.posterImageView.alpha = 0.0
+                    self.posterImageView.image = image
+                    UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                        self.posterImageView.alpha = 1.0
+                    })
+                } else {
+                    self.posterImageView.image = image
+                }
+        }, failure: { (imageRequest, imageResponse, error) in
+            
+        })
+
+        
+        
         self.navigationItem.title = self.movie.title
         
         overviewLabel.text = self.movie.overview
